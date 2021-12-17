@@ -1,0 +1,64 @@
+.main{
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnPTKF3Y2dCLj46eLsi3mU0Q5kgEqjxQTw2A&usqp=CAU");
+  height: 700px;
+}
+.second{
+  background-color: orange;
+}
+.third
+{
+  border: 2px solid red;
+  border-radius: 5px;
+  color: white;
+  background-color: black;
+  text-align: center;
+}
+.simon
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+.button
+{
+  width: 300px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 20px;
+  height: 300px;
+  text-align:center;
+  border: 2px solid black;
+  background-size: 300% 100%;
+  border-radius: 50%;
+}
+.start{
+  width: 50px;
+}
+.green{
+  background-color: rgb(02,176,50);
+}
+.red{
+  background-color: rgb(179,27,27);
+}
+.blue {
+  background-color: rgb(0,0,205);
+}
+.yellow {
+  background-color: rgb(200,200,0);
+}
+.greenLit{
+  background-color: rgb(0,255,0);
+}
+.redLit{
+  background-color: rgb(255,36,0);
+}
+.yellowLit{
+  background-color: rgb(255,255,120);
+}
+.blueLit{
+  background-color: rgb(0,100,255);
+}
