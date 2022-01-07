@@ -13,6 +13,8 @@
     <div class="third">
     Round
     </div>
+    <hr>
+      <h1 id="high-score"></h1>
     <div class="simon">
       <button class= "button" id="green"> </button>
       <button class= "button" id="red"> </button>
@@ -28,10 +30,16 @@
     var yellow = document.getElementById('yellow');
     var blue = document.getElementById('blue');
     var startButton = document.getElementById('startButton');
+    const highScore=document.getElementById("high-score");
 
     var round = 0;
     var sequence = [];
     var userInput = [];
+    if(window.localStorage.highScore!==undefined){
+    highScore.innerHTML="Your High Score: "+window.localStorage.highScore;
+} else{
+    highScore.innerHTML="Your High Score: 0";
+}
 
     const colors = new Map();
 
@@ -44,9 +52,9 @@
     colors.set("yellow",3);
     colors.set("blue",4);
 
+
     function nextRound() {
           round += 1;
-
           var nextPattern = [...sequence];
           nextPattern.push(nextColor());
           sequence = nextPattern;
@@ -99,6 +107,7 @@
           if(!(compareSequences(userInput,sequence)))
           {
             document.getElementById(color).innerHTML = "You Lose";
+            updateHighScore();
             round = 0;
             setTimeout(() => {
               document.getElementById(color).innerHTML = "Level "+(round+1);
@@ -114,6 +123,12 @@
           }
         }
       }
+      function updateHighScore(){
+      if((round==1&&window.localStorage.highScore==undefined)||(round>window.localStorage.highScore)){
+          window.localStorage.highScore=round;
+          highScore.innerHTML="Your High Score: "+window.localStorage.highScore;
+      }
+    }
 
     green.addEventListener("click",function() {
     //  document.getElementById("greenButton").classList.remove('green');
