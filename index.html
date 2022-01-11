@@ -25,11 +25,13 @@
   </body>
   <script>
 
-    var green = document.getElementById('green');
-    var red = document.getElementById('red');
-    var yellow = document.getElementById('yellow');
-    var blue = document.getElementById('blue');
-    var startButton = document.getElementById('startButton');
+    let buttons = {
+      green: document.getElementById('green'),
+      red: document.getElementById('red'),
+      yellow: document.getElementById('yellow'),
+      blue: document.getElementById('blue'),
+      startButton: document.getElementById('startButton')
+    }
     const highScore=document.getElementById("high-score");
 
     var round = 0;
