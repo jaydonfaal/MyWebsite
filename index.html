@@ -132,31 +132,31 @@
       }
     }
 
-    green.addEventListener("click",function() {
+    buttons.green.addEventListener("click",function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      green.classList.add('green');
+      buttons.green.classList.add('green');
       setTimeout(() => {green.classList.remove('green')}, 650);
       checkIfLost('green');
     });
-    red.addEventListener("click",function() {
+    buttons.red.addEventListener("click",function() {
     //  document.getElementById("redButton").classList.remove('red');
-      red.classList.add('red');
+      buttons.red.classList.add('red');
       setTimeout(() => {red.classList.remove('red')}, 650);
       checkIfLost('red');
     });
-    yellow.addEventListener("click",function() {
+    buttons.yellow.addEventListener("click",function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      yellow.classList.add('yellow');
+      buttons.yellow.classList.add('yellow');
       setTimeout(() => {yellow.classList.remove('yellow')}, 650);
       checkIfLost('yellow');
     });
-    blue.addEventListener("click",function() {
+    buttons.blue.addEventListener("click",function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      blue.classList.add('blue');
+      buttons.blue.classList.add('blue');
       setTimeout(() => {blue.classList.remove('blue')}, 650);
       checkIfLost('blue');
     });
-    startButton.addEventListener("click",function(){
+    buttons.startButton.addEventListener("click",function(){
       nextRound();
     });
   </script>
