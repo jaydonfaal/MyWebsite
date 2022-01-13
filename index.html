@@ -1,161 +1,187 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="./styles.css">
-    <title>Orange</title>
-  </head>
-  <body>
-    <div class="main">
-    </div>
-    <div class="second">
-    The orange is the fruit of various citrus species in the family Rutaceae. The orange is a hybrid between pomelo (Citrus maxima) and mandarin (Citrus reticulata).[2][6] The chloroplast genome, and therefore the maternal line, is that of pomelo.[7] The sweet orange has had its full genome sequenced.The orange originated in a region encompassing Southern China, Northeast India, and Myanmar,[8][9] and the earliest mention of the sweet orange was in Chinese literature in 314 BC.[2] As of 1987, orange trees were found to be the most cultivated fruit tree in the world.[10] Orange trees are widely grown in tropical and subtropical climates for their sweet fruit. The fruit of the orange tree can be eaten fresh, or processed for its juice or fragrant peel.[11] As of 2012, sweet oranges accounted for approximately 70% of citrus production.
-    </div>
-    <div class="third">
+  
+
+<head>
+      
+  <link rel="stylesheet" href="./styles.css">
+  <title>Orange</title>
+    
+</head>
+  
+
+<body>
+  <div class="main">
+  </div>
+  <div class="second">
+    The orange is the fruit of various citrus species in the family Rutaceae. The orange is a hybrid between pomelo (Citrus maxima) and mandarin (Citrus reticulata).[2][6] The chloroplast genome, and therefore the maternal line, is that of pomelo.[7]
+    The sweet orange has had its full genome sequenced.The orange originated in a region encompassing Southern China, Northeast India, and Myanmar,[8][9] and the earliest mention of the sweet orange was in Chinese literature in 314 BC.[2] As of 1987,
+    orange trees were found to be the most cultivated fruit tree in the world.[10] Orange trees are widely grown in tropical and subtropical climates for their sweet fruit. The fruit of the orange tree can be eaten fresh, or processed for its juice
+    or fragrant peel.[11] As of 2012, sweet oranges accounted for approximately 70% of citrus production.
+  </div>
+  <div class="third">
     Round
-    </div>
-    <hr>
-      <h1 id="high-score"></h1>
-    <div class="simon">
-      <button class= "button" id="green"> </button>
-      <button class= "button" id="red"> </button>
-      <button class= "start" id="startButton"> Start </button>
-      <button class= "button" id="yellow">  </button>
-      <button class= "button" id="blue">  </button>
-    </div>
-  </body>
-  <script>
+  </div>
+  <hr>
+  <h1 id="high-score"></h1>
+  <div class="simon">
+    <button class="button" id="green"> </button>
+    <button class="button" id="red"> </button>
+    <button class="start" id="startButton"> Start </button>
+    <button class="button" id="yellow"> </button>
+    <button class="button" id="blue"> </button>
+  </div>
+    
+</body>
+<script>
 
-    var green = document.getElementById('green');
-    var red = document.getElementById('red');
-    var yellow = document.getElementById('yellow');
-    var blue = document.getElementById('blue');
-    var startButton = document.getElementById('startButton');
-    const highScore=document.getElementById("high-score");
+  let buttons = {
+    green: document.getElementById('green'),
+    red: document.getElementById('red'),
+    yellow: document.getElementById('yellow'),
+    blue: document.getElementById('blue'),
+    startButton: document.getElementById('startButton')
+  }
+  let essentialVariables = {
+    round: 0,
+    sequence: [],
+    userInput: []
+  }
 
-    var round = 0;
-    var sequence = [];
-    var userInput = [];
-    if(window.localStorage.highScore!==undefined){
-    highScore.innerHTML="Your High Score: "+window.localStorage.highScore;
-} else{
-    highScore.innerHTML="Your High Score: 0";
-}
+  const highScore = document.getElementById("high-score");
+  if (window.localStorage.highScore !== undefined) {
+    highScore.innerHTML = "Your High Score: " + window.localStorage.highScore;
+  } else {
+    highScore.innerHTML = "Your High Score: 0";
+  }
 
-    const colors = new Map();
+  const colors = new Map();
+  colors.set(1, "green");
+  colors.set(2, "red");
+  colors.set(3, "yellow");
+  colors.set(4, "blue");
+  colors.set("green", 1);
+  colors.set("red", 2);
+  colors.set("yellow", 3);
+  colors.set("blue", 4);
 
-    colors.set(1,"green");
-    colors.set(2, "red");
-    colors.set(3, "yellow");
-    colors.set(4, "blue");
-    colors.set("green",1);
-    colors.set("red",2);
-    colors.set("yellow",3);
-    colors.set("blue",4);
+  let computerPlay = {
+    initiateNewRound: function(){
+      essentialVariables.round += 1;
+      var nextPattern = [...essentialVariables.sequence];
+      nextPattern.push(helperFunctions.returnRandomColor());
+      essentialVariables.sequence = nextPattern;
+      computerPlay.computerLightUp(nextPattern);
+    },
 
+     computerLightUp: function (nextPattern) {
+      nextPattern.forEach((color, index) => {
+        setTimeout(() => {
+          helperFunctions.activateColor(color);
+        }, (index + 1) * 600);
+      });
+    },
 
-    function nextRound() {
-          round += 1;
-          var nextPattern = [...sequence];
-          nextPattern.push(nextColor());
-          sequence = nextPattern;
-          play(nextPattern);
-        }
-
-        function nextColor() {
-          const random = Math.floor(Math.random() * 4)+1;
-          return colors.get(random);
-        }
-
-        function activateColor(color) {
-          currentButton = document.getElementById(color);
-
-          currentButton.classList.add(color);
-
+    processAnswerIfComplete: function (color) {
+      essentialVariables.userInput.push(color);
+      if (essentialVariables.userInput.length == essentialVariables.sequence.length) {
+        console.log(JSON.stringify(essentialVariables.userInput));
+        console.log(JSON.stringify(essentialVariables.sequence));
+        if (!(helperFunctions.compareSequences(essentialVariables.userInput, essentialVariables.sequence))) {
+          document.getElementById(color).innerHTML = "You Lose";
+          computerPlay.updateHighScore();
+          essentialVariables.round = 0;
           setTimeout(() => {
-            currentButton.classList.remove(color);
-          }, 300);
-        }
+            document.getElementById(color).innerHTML = "Level " + (essentialVariables.round + 1);
+          }, 1000);
 
-        function play(nextPattern) {
-          nextPattern.forEach((color, index) => {
-            setTimeout(() => {
-            activateColor(color);
-          }, (index + 1) * 600);
-        });
-      }
-
-      function compareSequences(sequence1,sequence2)
-      {
-        for (var i=0;i<sequence1.length;i++)
-        {
-          console.log(sequence1,sequence2);
-          if (sequence1[i] != sequence2[i])
-          {
-            return false;
-          }
-        }
-        return true;
-      }
-
-      function checkIfLost(color)
-      {
-        userInput.push(color);
-        if(userInput.length == sequence.length)
-        {
-          console.log(JSON.stringify(userInput));
-          console.log(JSON.stringify(sequence));
-          if(!(compareSequences(userInput,sequence)))
-          {
-            document.getElementById(color).innerHTML = "You Lose";
-            updateHighScore();
-            round = 0;
-            setTimeout(() => {
-              document.getElementById(color).innerHTML = "Level "+(round+1);
-            }, 1000);
-
-            userInput = [];
-            sequence = [];
-            nextPattern = [];
-          }
-          else{
-            document.getElementById(color).innerHTML = "Level "+(round+1);
-           userInput = [];
-          }
+          essentialVariables.userInput = [];
+          essentialVariables.sequence = [];
+          nextPattern = [];
+        } else {
+          document.getElementById(color).innerHTML = "Level " + (essentialVariables.round + 1);
+          essentialVariables.userInput = [];
         }
       }
-      function updateHighScore(){
-      if((round==1&&window.localStorage.highScore==undefined)||(round>window.localStorage.highScore)){
-          window.localStorage.highScore=round;
-          highScore.innerHTML="Your High Score: "+window.localStorage.highScore;
+    },
+
+    updateHighScore: function() {
+      if ((essentialVariables.round == 1 && window.localStorage.highScore == undefined) || (essentialVariables.round > window.localStorage.highScore)) {
+        window.localStorage.highScore = essentialVariables.round;
+        highScore.innerHTML = "Your High Score: " + window.localStorage.highScore;
       }
     }
 
-    green.addEventListener("click",function() {
+
+  }
+
+  let helperFunctions = {
+
+    returnRandomColor: function() {
+      const random = Math.floor(Math.random() * 4) + 1;
+      return colors.get(random);
+    },
+
+    activateColor: function (color) {
+      currentButton = document.getElementById(color);
+
+      currentButton.classList.add(color);
+
+      setTimeout(() => {
+        currentButton.classList.remove(color);
+      }, 300);
+    },
+
+    compareSequences: function(sequence1, sequence2) {
+      for (var i = 0; i < sequence1.length; i++) {
+        console.log(sequence1, sequence2);
+        if (sequence1[i] != sequence2[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  buttons.green.addEventListener("click", function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      green.classList.add('green');
-      setTimeout(() => {green.classList.remove('green')}, 650);
-      checkIfLost('green');
-    });
-    red.addEventListener("click",function() {
+    buttons.green.classList.add('green');
+    setTimeout(() => {
+      green.classList.remove('green')
+    }, 650);
+    computerPlay.processAnswerIfComplete('green');
+  });
+
+  buttons.red.addEventListener("click", function() {
     //  document.getElementById("redButton").classList.remove('red');
-      red.classList.add('red');
-      setTimeout(() => {red.classList.remove('red')}, 650);
-      checkIfLost('red');
-    });
-    yellow.addEventListener("click",function() {
+    buttons.red.classList.add('red');
+    setTimeout(() => {
+      red.classList.remove('red')
+    }, 650);
+    computerPlay.processAnswerIfComplete('red');
+  });
+
+  buttons.yellow.addEventListener("click", function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      yellow.classList.add('yellow');
-      setTimeout(() => {yellow.classList.remove('yellow')}, 650);
-      checkIfLost('yellow');
-    });
-    blue.addEventListener("click",function() {
+    buttons.yellow.classList.add('yellow');
+    setTimeout(() => {
+      yellow.classList.remove('yellow')
+    }, 650);
+    computerPlay.processAnswerIfComplete('yellow');
+  });
+
+  buttons.blue.addEventListener("click", function() {
     //  document.getElementById("greenButton").classList.remove('green');
-      blue.classList.add('blue');
-      setTimeout(() => {blue.classList.remove('blue')}, 650);
-      checkIfLost('blue');
-    });
-    startButton.addEventListener("click",function(){
-      nextRound();
-    });
-  </script>
+    buttons.blue.classList.add('blue');
+    setTimeout(() => {
+      blue.classList.remove('blue')
+    }, 650);
+    computerPlay.processAnswerIfComplete('blue');
+  });
+  
+  buttons.startButton.addEventListener("click", function() {
+    computerPlay.initiateNewRound();
+  });
+</script>
+
 </html>
