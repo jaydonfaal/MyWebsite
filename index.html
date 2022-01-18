@@ -31,6 +31,9 @@
     <button class="button" id="yellow"> </button>
     <button class="button" id="blue"> </button>
   </div>
+  <div>
+  <canvas id="canvas" width="900" height="500"></canvas>
+</div>
     
 </body>
 <script>
@@ -178,10 +181,74 @@
     }, 650);
     computerPlay.processAnswerIfComplete('blue');
   });
-  
+
   buttons.startButton.addEventListener("click", function() {
     computerPlay.initiateNewRound();
   });
+
+
+
+  function initializeAnimation() {
+    window.requestAnimationFrame(draw);
+  }
+
+  function drawArt(ctx) {
+
+    ctx.save();
+    var time2 = new Date();
+    ctx.translate(time2.getSeconds(), 0);
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI * 2, false);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 200, 0, Math.PI * 2, false);
+    ctx.stroke();
+
+
+    ctx.save();
+    var time = new Date();
+    ctx.rotate(time.getSeconds() + time.getMilliseconds() / 1000);
+    ctx.beginPath();
+    ctx.rect(20, -50, 100, 100);
+    ctx.stroke();
+    ctx.restore();
+
+
+    ctx.beginPath();
+    ctx.moveTo(160, 50);
+    ctx.lineTo(100, 50);
+    ctx.lineTo(118, 0);
+    ctx.lineTo(160, 50);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function draw() {
+    var ctx = document.getElementById('canvas').getContext('2d');
+
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.clearRect(0, 0, 900, 700); // clear canvas
+
+    // Figure out what pen we wanna draw with
+    ctx.fillStyle = 'rgba(0, 153, 255, 1)';
+    ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
+
+    ctx.save();
+    ctx.lineWidth = 6;
+    ctx.translate(450, 250);
+    drawArt(ctx);
+    ctx.restore();
+
+
+    // Call draw when the website is ready
+    window.requestAnimationFrame(draw);
+  }
+
+  initializeAnimation();
+
 </script>
 
 </html>
